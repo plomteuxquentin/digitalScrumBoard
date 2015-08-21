@@ -1,0 +1,18 @@
+<section id="member-view" class="mainbar">
+	<section class="matter">
+		<div class="container">
+			
+			<h3>{{vm.members.length}} members in team 
+				<button class="btn btn-primary btn-lg pull-right" ng-click="vm.upsertMemberModal()"><i class="fa fa-user-plus fa-lg"></i> Add Member</button>
+			</h3>
+			
+			<div class="row">
+				<div class="col-md-2 user-card btn" ng-repeat="member in vm.members track by member.id" ng-style="{'background-color':member.color}" ng-click="vm.upsertMemberModal(member)">
+					<p class="name">{{member.getFullName()}}</p>
+					<p class="logo"><i class="fa fa-user fa-5x"></i></p>
+					<p class="role">{{member.role.title}}</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>
