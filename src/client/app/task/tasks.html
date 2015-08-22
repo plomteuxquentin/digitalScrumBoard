@@ -1,0 +1,13 @@
+<section id="task-view" class="mainbar">
+	<section class="matter">
+		<div class="container">
+
+			<h3>{{vm.tasks.length}} tasks in backlog
+				<button class="btn btn-primary btn-lg pull-right" ng-click="vm.upsertModal()"><i class="fa fa-cube fa-lg"></i> Add tasks</button>
+			</h3>
+			<div class="row">
+				<dsc-task-card ng-repeat="task in vm.tasks track by task.id" entity="task" for-edition="vm.upsertModal" type="task"></dsc-task-card>
+			</div>
+		</div>
+	</section>
+</section>

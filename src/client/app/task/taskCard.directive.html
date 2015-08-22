@@ -1,0 +1,6 @@
+<div class="col-md-2 card btn" ng-style="{'background-color':entity.priority.level.color}" ng-click="forEdition(entity)">
+	<p class="numero pull-left">{{entity.numero}}</p>
+	<p class="name">{{entity.title}}</p>
+	<p class="logo"><i class="{{entity.type.logo}} fa-5x"></i></p>
+	<p class="role">{{entity.state.title}} <span class="estimation"> <i class="fa fa-clock-o numero"></i> {{entity.estimation}}</span></p>
+</div>

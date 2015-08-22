@@ -2,102 +2,100 @@
 	'use strict';
 
 	angular
-		.module('app.member')
-		.factory('memberManager',memberManager);
+		.module('app.task')
+		.factory('taskManager',taskManager);
 
-	memberManager.$inject = ['$http','$q','Member'];
+	taskManager.$inject = ['$http','$q','Task'];
 
-	
+
 	/* @ngInject */
-	function memberManager($http,$q,Member) {
+	function taskManager($http,$q,Entity) {
 
-		
-		var entity = {
-			name:'member',
-			baseUrl:'server/members/'
+
+		var _entity = {
+			name:'task',
+			baseUrl:'server/tasks/'
 		};
-		
-		
+
+
 		var service = {
-			_entity:entity,
+			_entity: _entity,
 			_pool: {},
-			_retrieveInstance: retrieveInstance,
-			_search: search,
-			_load: load,
-			_delete: deleteFunction,
-			_create: create,
-			_update: update,
+			_retrieveInstance: _retrieveInstance,
+			_search: _search,
+			_load: _load,
+			_remove: _remove,
+			_create: _create,
+			_update: _update,
 			/* Public Methods */
 			/* Use this function in order to get an Entity instance by it's id */
-			getMember:getEntity,
-			getMembers:getEntities,
+			get:getEntity,
+			getAll:getEntities,
 			/* Use this function in order to get instances of all the entities */
-			loadAllMembers: loadAllEntities,
+			loadAll: loadAllEntities,
 			/*  This function is useful when we got somehow the book data and we wish to store it or update the pool and get a book instance in return */
-			setMember: upsertEntity,
+			upsert: upsertEntity,
 			/*	Remove Entity*/
-			deleteMember: deleteEntity,
+			remove: removeEntity,
 		};
-				
+
 		return service;
 		//////////////////////////////
-		
-		
+
+
 		//////////// PRIVATE //////////////
-		
-		
+
+
 		//Add registered Entity to the pool
 		//@return the entity
-		function retrieveInstance(id,data) {
+		function _retrieveInstance(id,data) {
 			var instance = this._pool[id];
 
 			if (instance) {
 				instance.setData(data);
 			} else {
-				instance = new Member(data);
+				instance = new Entity(data);
 				this._pool[data.id] = instance;
 			}
 
 			return instance;
 		}
-		
+
 		//search the pool
 		//@return the entity or undefined
-		function search (id) {
+		function _search (id) {
 			return this._pool[id];
 		}
-		
+
 		//load Entity from server and add it to the pool (or update if already present)
 		//@return promise with loaded Entity
-		function load(id, deferred) {
+		function _load(id, deferred) {
 			var scope = this;
 
-			$http.get(scope.entity.baseURI + id).then(onSuccess,onFailure);
+			$http.get(scope._entity.baseURI + id).then(onSuccess,onFailure);
 
-			
-			
 			function onSuccess(data){
 				var entity = scope._retrieveInstance(data.id,data);
 				deferred.resolve(entity);
 			}
-			
+
 			function onFailure(reason){
-				console.error('unable to load member with id:'+id);
+				console.error('unable to load '+scope._entity.name+' from '+scope._entity.baseUrl+id);
 				deferred.reject(reason);
 			}
-			
+
 		}
-		
-		
+
+
 		//delete entity from server and remove it from pool.
 		//@return promise with the deleted Entity
-		function deleteFunction(id,deferred){
+		function _remove(id,deferred){
 			var scope = this;
 
 			//$http.delete(scope.entity.baseURI + id).then(onSuccess,onFailure);
-			
+
 			onSuccess();
-			
+
 			function onSuccess(){
 				var entity = scope._pool[id];
 				if(entity){
@@ -107,20 +105,20 @@
 			}
 
 			function onFailure(reason){
-				console.error('unable to delete '+scope.entity.name+' id:'+id);
+				console.error('unable to delete '+scope._entity.name+' from '+scope._entity.baseUrl+id);
 				deferred.reject(reason);
 			}
 		}
-		
+
 		//post entity to server and add it to the pool
 		//@return promise with the create Entity
-		function create(data,deferred){
+		function _create(data,deferred){
 			var scope = this;
 
 			//$http.post(scope.entity.baseURI,data).then(onSuccess,onFailure);
 
 			onSuccess(data);
-			
+
 			function onSuccess(reponse){
 				reponse.id = Date.now()+Math.floor(Math.random()*1000);
 				var entity = scope._retrieveInstance(reponse.id,reponse);
@@ -132,39 +130,39 @@
 				deferred.reject(reason);
 			}
 		}
-		
+
 		//put entity to server and update/add it to the pool
 		//@return promise with the updated Entity
-		function update(data,deferred){
+		function _update(data,deferred){
 			var scope = this;
 
 			//$http.put(scope.entity.baseURI+data.id,data).then(onSuccess,onFailure);
 
 			onSuccess(data)
-			
+
 			function onSuccess(reponse){
 				var entity = scope._retrieveInstance(reponse.id,reponse);
 				deferred.resolve(entity);
 			}
 
 			function onFailure(reason){
-				console.error('unable to update member id:'+data.id);
+				console.error('unable to update '+scope._entity.name+' from '+scope._entity.baseUrl+id);
 				deferred.reject(reason);
 			}
 
 		}
-		
-		
+
+
 		//////////// PUBLIC //////////////
-		
+
 		function getEntities() {
 			var entities = [];
-				angular.forEach(this._pool,function (entity) {
-					entities.push(entity);
-				});
+			angular.forEach(this._pool,function (entity) {
+				entities.push(entity);
+			});
 			return entities;
 		}
-		
+
 		function getEntity(id) {
 			var deferred = $q.defer();
 			var entity = this._search(id);
@@ -175,7 +173,7 @@
 			}
 			return deferred.promise;
 		}
-		
+
 		function loadAllEntities() {
 			var deferred = $q.defer();
 			var scope = this;
@@ -193,41 +191,41 @@
 
 				deferred.resolve(entities);
 			}
-			
+
 			function onFailure(reason){
 				console.log(scope);
-				
-				console.error('unable to load '+scope._entity.name);
+
+				console.error('unable to load entities '+scope._entity.name);
 				deferred.reject(reason);
 			}
 
 		}
-		
+
 		function upsertEntity(data) {					
 			var scope = this;
 			var deferred = $q.defer();
-			
+
 			if(!data.id){
 				this._create(data,deferred)
 			}else {
 				this._update(data,deferred)
 			}
-			
+
 			return deferred.promise;
 
 		}
-		
-		function deleteEntity(data, deferred) {
+
+		function removeEntity(data, deferred) {
 			var deferred = $q.defer();
 			var entity = this._search(data.id);
 			if (entity) {
-				this._delete(entity.id, deferred);
+				this._remove(entity.id, deferred);
 			} else {
 				deferred.reject(entity.name+' id:'+id+' not found.');
 			}
 			return deferred.promise;
 
 		}
-		
+
 	}
 }());
