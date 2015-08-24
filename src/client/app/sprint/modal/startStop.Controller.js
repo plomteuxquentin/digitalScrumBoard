@@ -2,28 +2,28 @@
 	'use strict';
 
 	angular
-		.module('app.task')
-		.controller('upsertTaskModalController',upsertTaskModalController);
+		.module('app.sprint')
+		.controller('startStopModalController',startStopModalController);
 
-	upsertTaskModalController.$inject = ['$modalInstance','TYPES','PRIORITIES', 'modalConfig'];
+	startStopModalController.$inject = ['$modalInstance','TYPES','PRIORITIES', 'modalConfig'];
 	/* @ngInject */
-	function upsertTaskModalController($modalInstance,TYPES,PRIORITIES, modalConfig) {
+	function startStopModalController($modalInstance,TYPES,PRIORITIES, modalConfig) {
 		var vm = this;
 
-	
+
 		vm.types = [];
 
 		angular.forEach(TYPES, function(value) {
 			vm.types.push(value);
 		});
-	
+
 		vm.priorities = [];
 
 		angular.forEach(PRIORITIES, function(value) {
 			vm.priorities.push(value);
 		});
-		
-		
+
+
 		vm.title = modalConfig.modalTitle;
 		vm.isNew = modalConfig.isNew;
 

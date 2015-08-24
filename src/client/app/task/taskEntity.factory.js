@@ -20,7 +20,7 @@
 			this.type = {}; //Features,Bug,Technical work, Knowledge acquisition
 			this.content = '';
 			this.estimation = 0;
-			this.comment = '';
+			this.comments = [];
 			this.priority = {level:{}, point:0} //LOW,MEDIUM, HIGH, EXTREM
 
 			if (data) {

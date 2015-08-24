@@ -1,0 +1,69 @@
+<section id="sprint-view" class="mainbar">
+	<section class="matter">
+		<div class="container">
+
+
+
+			<button class="btn btn-primary" ng-click="vm.formEdit.$show()" ng-hide="vm.isNew || vm.formEdit.$visible">Edit</button>
+
+
+			<form class="row col-md-offset-1 col-md-10 task-info" editable-form name="vm.formEdit" onaftersave="vm.ok()">
+				<h1>Sprint n° 
+					<span editable-number="vm.sprint.numero" e-name="numero" e-min="0" e-placeholder="numero">{{ vm.sprint.numero || '-1' }}</span>
+					<small> - <span editable-text="vm.sprint.title" e-name="title" e-placeholder="title">{{ vm.sprint.title || 'no title' }}</span></small> 
+				</h1>
+				
+				<div class="col-md-offset-1 col-md-2">Start date Schedule</div>
+				<div class=" col-md-9 ">
+					<a href="#" editable-text="vm.sprint.dates.plannedStart" e-type="date">
+						{{ (vm.sprint.dates.plannedStart | date:"dd/MM/yyyy") || 'no start date set' }}	
+					</a>
+				</div>
+				
+				<div class="col-md-offset-1 col-md-2">Duration</div>
+				<div class=" col-md-8 ">
+					<span editable-select="vm.sprint.duration" e-ng-options="duration as duration.title for duration in vm.DURATIONS track by duration.id">{{ vm.sprint.duration.title || 'no duration' }}</span>
+				</div>
+				
+				<div class="col-md-offset-1 col-md-2">Finish date Schedule</div>
+				<div class=" col-md-8 ">
+						{{ (vm.sprint.dates.getPlannedFinish() | date:"dd/MM/yyyy") || 'no finish date compute' }}
+				</div>
+				
+				
+				<div class="col-md-offset-1 col-md-2">Status</div>
+				<div class=" col-md-8">
+					<span editable-select="vm.sprint.status" e-ng-options="status as status.title for status in vm.STATUSES track by status.id"><i ng-class="vm.task.state.logo"></i> {{vm.sprint.status.title || 'no Status'}}</span>
+				</div>
+				<div class="col-md-offset-1 col-md-2">Goal</div>
+				<div class=" col-md-8">
+					<span editable-textarea="vm.sprint.goal" e-rows="7" e-cols="40">
+						<pre>{{ vm.sprint.goal || 'no description' }}</pre>
+					</span>
+				</div>
+
+
+
+				<div ng-show="vm.formEdit.$visible" class="row col-md-offset-1 col-md-10 pull-right">
+					<button class="btn btn-primary" type="submit" ng-show="vm.isNew" disabled>Save and create another</button>
+					<button class="btn btn-primary" type="submit">{{vm.okTitle}}</button>
+					<button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+				</div>
+			</form>
+
+
+			<div class="row col-md-offset-2 col-md-8" ng-hide="vm.isNew || vm.formEdit.$visible">
+
+				<h2>{{vm.sprint.comments.length}} comments </h2>
+				<p>{{vm.sprint.comments || '-' }}</p>
+				<button class="btn btn-default" type="button" disabled>Add Comment</button>
+			</div>
+
+
+
+
+
+
+		</div>
+	</section>
+</section>

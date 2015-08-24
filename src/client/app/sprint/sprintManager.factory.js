@@ -2,19 +2,19 @@
 	'use strict';
 
 	angular
-		.module('app.task')
-		.factory('taskManager',taskManager);
+		.module('app.sprint')
+		.factory('sprintManager',sprintManager);
 
-	taskManager.$inject = ['$http','$q','Task'];
+	sprintManager.$inject = ['$http','$q','Sprint'];
 
 
 	/* @ngInject */
-	function taskManager($http,$q,Entity) {
+	function sprintManager($http,$q,Entity) {
 
 
 		var _entity = {
-			name:'task',
-			baseUrl:'server/tasks/'
+			name:'sprint',
+			baseUrl:'server/sprints/'
 		};
 
 
@@ -71,11 +71,11 @@
 		//@return promise with loaded Entity
 		function _load(id, deferred) {
 			var scope = this;
-			
+
 			//$http.get(scope._entity.baseURI + id).then(onSuccess,onFailure);
 
 			onFailure("No server available");
-			
+
 			function onSuccess(data){
 				var entity = scope._retrieveInstance(data.id,data);
 				deferred.resolve(entity);

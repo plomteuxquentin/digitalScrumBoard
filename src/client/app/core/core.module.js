@@ -11,6 +11,7 @@
 					'ui.router',
 					'ngplus',
 					'ui.bootstrap',
-					'colorpicker.module'
+					'colorpicker.module',
+					'xeditable'
         ]);
 })();

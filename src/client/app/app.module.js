@@ -6,7 +6,8 @@
         'app.widgets',
         'app.layout',
 				'app.member',
-				'app.task'
+				'app.task',
+				'app.sprint'
 
     ]);
 

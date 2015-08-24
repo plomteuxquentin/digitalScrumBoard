@@ -5,16 +5,21 @@
 		.module('app.task')
 		.controller('TasksController', TasksController);
 
-	TasksController.$inject = ['taskManager', 'logger', '$modal', 'Task'];
+	TasksController.$inject = ['taskManager', 'logger', '$modal', 'Task','TYPES'];
 	/* @ngInject */
-	function TasksController(taskManager, logger, $modal, Task) {
+	function TasksController(taskManager, logger, $modal, Task,TYPES) {
 		var vm = this;
 
 
 		vm.title = 'Product backlog';
+		vm.TYPES = TYPES;
+		
+		vm.upsertModal = upsertModal;
 
 		activate();
 
+		
+		
 		function activate() {
 			//TODO: MOVE INTO STATE
 			logger.info('Loading tasks');
@@ -23,7 +28,6 @@
 			logger.info('Activated tasks View');
 		}
 
-		vm.upsertModal = upsertModal;
 
 
 		//Configure and open upsert modal
@@ -42,7 +46,7 @@
 			if (task) {
 				config = {
 					entity : task,
-					modalTitle : 'Quick Edition task n° '+task.numero,
+					modalTitle : 'Quick edition task n° '+task.numero,
 					isNew : false,
 				};
 			} else {

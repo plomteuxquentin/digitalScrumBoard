@@ -1,0 +1,29 @@
+<section id="sprint-view" class="mainbar">
+	<section class="matter">
+		<div class="container">
+
+			<h3>{{vm.sprints.length}} sprints in planning
+				<a class="btn btn-primary btn-lg pull-right"  ui-sref="sprint()" ><i class="fa fa-calendar fa-lg"></i> Add sprint</a>
+			</h3>
+
+			<div class="button-filter text-center">																																													
+				<button type="button" class="btn btn-primary" ng-class="{active: status.isActive}" ng-click="status.isActive=!status.isActive" ng-repeat="status in vm.STATUSES | orderBy:'id'"> <i ng-class="status.logo"></i> {{status.title}}</button>
+
+				<div class="btn-group" dropdown is-open="status.isopen" style="margin-left:5%">
+					<button id="single-button" type="button" class="btn btn-primary" dropdown-toggle>Order by <span class="caret"></span></button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+						<li class="disabled" role="menuitem"><a href="#">Number</a></li>
+						<li class="disabled" role="menuitem"><a href="#">Title</a></li>
+						<li class="disabled" role="menuitem"><a href="#">Point</a></li>
+						<li class="disabled" role="menuitem"><a href="#">Status</a></li>
+					</ul>
+				</div>
+
+
+			</div>
+			<div class="row">
+				<dsc-sprint-card ng-repeat="sprint in vm.sprints | statusFilter:vm.STATUSES track by sprint.id" entity="sprint" for-edition="vm.startStopModal" type="sprint"></dsc-sprint-card>
+			</div>
+		</div>
+	</section>
+</section>

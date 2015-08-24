@@ -26,6 +26,15 @@
 						content: '<i class="fa fa-cubes"></i> Product Backlog'
 					}
 				}
+			},
+			{
+				state: 'task',
+				config: {
+					url: '/tasks/:taskId',
+					templateUrl: 'app/task/task.html',
+					controller: 'TaskController',
+					controllerAs: 'vm',
+				}
 			}
 		];
 	}
