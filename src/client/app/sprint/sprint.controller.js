@@ -5,16 +5,16 @@
 		.module('app.sprint')
 		.controller('SprintController', SprintController);
 
-	SprintController.$inject = ['$filter','sprintManager', 'logger', '$state', '$stateParams', 'Sprint', 'STATUSES', 'SPRINT_DURATIONS', '$scope'];
+	SprintController.$inject = ['$filter','sprintManager', 'logger', '$state', '$stateParams', 'Sprint', 'STATUSES', 'SPRINT_DURATIONS', '$scope', '$modal'];
 	/* @ngInject */
-	function SprintController($filter,sprintManager, logger ,$state, $stateParams, Sprint, STATUSES, SPRINT_DURATIONS, $scope) {
+	function SprintController($filter,sprintManager, logger ,$state, $stateParams, Sprint, STATUSES, SPRINT_DURATIONS, $scope,$modal) {
 		var vm = this;
 
 		var _sprint = null;
 		vm.STATUSES = [];
 		vm.DURATIONS = [];
 
-		
+		vm.selectTaskModal = selectTaskModal;
 
 
 
@@ -54,9 +54,8 @@
 
 
 				function found(sprint){
-					console.log("hi");
 					_sprint = sprint;
-					vm.sprint = angular.copy(_sprintk);
+					vm.sprint = angular.copy(_sprint);
 					vm.title = "Sprint : "+vm.sprint.title;
 					logger.info('Activated Sprint View');
 				}
@@ -80,21 +79,61 @@
 			}
 		};
 
-		function upsertSprint(sprint){
-			var actionTitle = (sprint.id) ? 'Sprint update' : 'Sprint add';
+		
+		
+		//Open a op up for user to select/unselect task
+		function selectTaskModal(){
+			
 
-			sprintManager.upsert(sprint).then(onSuccess, onFailure);
+			var config = {
+				entity : vm.sprint,
+				modalTitle : 'Select task for '+vm.sprint.title,
+				modalAction : 'Update',
+				actionTitle : 'Sprint updated',
+				isNew : true,
+			};
+			
+			var modalTemplate = {
+				animation: true,
+				templateUrl: 'app/sprint/modal/selectTasks.html',
+				controller: 'sprintSelectModalController',
+				controllerAs:'vm',
+				size: 'lg',
+				resolve:{
+					modalConfig: function () { return config;}
+				}
+			};
+	
 
-			function onSuccess(){
-				logger.success('Sprint n° '+sprint.numero,sprint,actionTitle);
-				vm.isNew=false;
-				vm.formEdit.$cancel();
+			var modalInstance = $modal.open(modalTemplate);
+			modalInstance.result.then(accept, refuse);
+
+			function accept(tasksSelected){
+				vm.sprint.tasks =  tasksSelected;
 			}
 
-			function onFailure(reason){
+			function refuse(){
+				console.log('modal dismissed');
+			}
+				
+			function upsertSprint(sprint){
+				var actionTitle = (sprint.id) ? 'Sprint update' : 'Sprint add';
+
+				
+				//!\ TODO HANDLE TASKS UPDATE
+				
+				sprintManager.upsert(sprint).then(onSuccess, onFailure);
+
+				function onSuccess(){
+					logger.success('Sprint n° '+sprint.numero,sprint,actionTitle);
+					vm.isNew=false;
+					vm.formEdit.$cancel();
+				}
+
+				function onFailure(reason){
 				logger.error('Sprint n° '+sprint.numero,reason,actionTitle+' fail');
 			}
+			}
 		}
-
 	}
 })();

@@ -37,6 +37,8 @@
 			upsert: upsertEntity,
 			/*	Remove Entity*/
 			remove: removeEntity,
+			/* Update tasks attribut and update each task in taskManager*/
+			updateTasks: updateTasks
 		};
 
 		return service;
@@ -154,6 +156,15 @@
 
 		}
 
+		function _addTasks(id,idsToAdd){
+			for
+		}
+		
+		function _removeTasks(id,idsToRemove){
+			
+		}
+		
+		
 
 		//////////// PUBLIC //////////////
 
@@ -229,5 +240,66 @@
 
 		}
 
+		
+		function updateTasks(id,tasksArrayId_NEW){
+			var deferred = $q.defer();
+			var sprintDeferred = $q.defer();
+			var entity = this._search(id);
+			if (entity) {
+				sprintDeferred.resolve(entity);
+			} else {
+				this._load(id, sprintDeferred);
+			}
+			
+			return deferred.promise;
+			
+			
+			sprintDeferred.promise.then(sprintFound,sprintNotFound);
+			
+			
+			function sprintFound(sprint){
+				
+				var idsToRemove = [];
+				var idsToAdd = [];
+				
+				//Remove task that are no longer selected
+				angular.forEach(sprint.tasks, function(task){
+					/*task id is not in tasksArrayId_NEW*/
+					if(tasksArrayId_NEW.indexOf(task.id)<0){
+						idsToRemove.push(task.id);
+					}
+				});
+				
+				//Add task that are not in sprint
+				angular.forEach(tasksArrayId_NEW,function(task){
+					/*task id is not is sprint.tasks*/
+					if(sprint.tasks.indexOf(task.id)<0){
+						idsToAdd.push(task.id)
+					}
+				});
+				
+				var addPromise = this._addTask(sprint.id,idsToAdd);
+				var removePromise = this._removeTask(sprint.id,idsToAdd);
+				
+/*			
+				TODO
+				addPromise.error(addPromiseFail);
+				removePromise.error(removePromiseFail);
+*/
+				$q.all(addPromise,removePromise).success(onUpdateSuccess);
+				
+				function onUpdateSuccess(reponse){
+					var message = reponse[0]+' tasks added and '+reponse[1]+' task remove';
+					
+				 	sprint.tasks = 
+					
+					
+				}
+			}
+			
+			function sprintNotFound(reason){
+				console.error(reason);
+			}
+		}
 	}
 }());

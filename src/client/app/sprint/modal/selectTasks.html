@@ -1,0 +1,17 @@
+<div class="modal-header">
+<h3 class="modal-title">
+<i class="fa fa-cubes"></i> {{vm.title}} 
+<small> - {{vm.entity.title}}</small>	
+</h3>
+</div>
+
+<div class="modal-body container-fluid">
+	<div class="row">
+		<dsc-task-card-mini  ng-repeat="task in vm.tasks track by task.id" entity="task" for-edition="vm.select" type="task"></dsc-task-card-mini>
+	</div>
+</div>
+
+<div class="modal-footer">	                      
+<button class="btn btn-primary" type="button" ng-click="vm.ok()">Add Tasks</button>
+<button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+</div>

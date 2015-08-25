@@ -30,7 +30,7 @@
 			{
 				state: 'sprint',
 				config: {
-					url: '/sprints/:taskId',
+					url: '/sprints/:sprintId',
 					templateUrl: 'app/sprint/sprint.html',
 					controller: 'SprintController',
 					controllerAs: 'vm',

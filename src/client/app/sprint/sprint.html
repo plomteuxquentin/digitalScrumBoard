@@ -9,32 +9,20 @@
 
 			<form class="row col-md-offset-1 col-md-10 task-info" editable-form name="vm.formEdit" onaftersave="vm.ok()">
 				<h1>Sprint n° 
-					<span editable-number="vm.sprint.numero" e-name="numero" e-min="0" e-placeholder="numero">{{ vm.sprint.numero || '-1' }}</span>
+					<span editable-number="vm.sprint.number" e-name="number" e-min="0" e-placeholder="numero">{{ vm.sprint.numero || '-1' }}</span>
 					<small> - <span editable-text="vm.sprint.title" e-name="title" e-placeholder="title">{{ vm.sprint.title || 'no title' }}</span></small> 
 				</h1>
-				
-				<div class="col-md-offset-1 col-md-2">Start date Schedule</div>
-				<div class=" col-md-9 ">
-					<a href="#" editable-text="vm.sprint.dates.plannedStart" e-type="date">
-						{{ (vm.sprint.dates.plannedStart | date:"dd/MM/yyyy") || 'no start date set' }}	
-					</a>
-				</div>
-				
+
 				<div class="col-md-offset-1 col-md-2">Duration</div>
 				<div class=" col-md-8 ">
 					<span editable-select="vm.sprint.duration" e-ng-options="duration as duration.title for duration in vm.DURATIONS track by duration.id">{{ vm.sprint.duration.title || 'no duration' }}</span>
 				</div>
 				
-				<div class="col-md-offset-1 col-md-2">Finish date Schedule</div>
-				<div class=" col-md-8 ">
-						{{ (vm.sprint.dates.getPlannedFinish() | date:"dd/MM/yyyy") || 'no finish date compute' }}
-				</div>
-				
-				
 				<div class="col-md-offset-1 col-md-2">Status</div>
 				<div class=" col-md-8">
-					<span editable-select="vm.sprint.status" e-ng-options="status as status.title for status in vm.STATUSES track by status.id"><i ng-class="vm.task.state.logo"></i> {{vm.sprint.status.title || 'no Status'}}</span>
+					<span editable-select="vm.sprint.status" e-ng-options="status as status.title for status in vm.STATUSES track by status.id">{{vm.sprint.status.title || 'no Status'}} <small><i ng-class="vm.sprint.status.logo"></i></small></span>
 				</div>
+				
 				<div class="col-md-offset-1 col-md-2">Goal</div>
 				<div class=" col-md-8">
 					<span editable-textarea="vm.sprint.goal" e-rows="7" e-cols="40">
@@ -42,6 +30,14 @@
 					</span>
 				</div>
 
+				<div class="col-md-offset-1 col-md-2">Tasks</div>
+				<div class=" col-md-8">
+					<button class="btn btn-default" type="button" ng-click="vm.selectTaskModal()"  ng-show="vm.formEdit.$visible"><i class="fa fa-cubes fa-lg"></i>Select tasks</button>
+					<ul>
+						<li ng-repeat="task in vm.sprint.tasks | orderBy:'getPriority()'">{{task.title}} <small class="pull-right"><i class="{{task.type.logo}}"></i> <i class="{{task.state.logo}}"></i> <i class="fa fa-clock-o"></i> {{task.estimation}}</small></li>
+					</ul>
+					<p ng-hide="vm.sprint.tasks.length"> no task in sprint</p>
+				</div>
 
 
 				<div ng-show="vm.formEdit.$visible" class="row col-md-offset-1 col-md-10 pull-right">

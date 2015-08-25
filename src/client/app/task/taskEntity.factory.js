@@ -22,6 +22,7 @@
 			this.estimation = 0;
 			this.comments = [];
 			this.priority = {level:{}, point:0} //LOW,MEDIUM, HIGH, EXTREM
+			this.assignToSprint = null //id of sprint where the tasks is assign
 
 			if (data) {
 				this.setData(data);
@@ -31,6 +32,7 @@
 
 		Task.prototype ={
 			setData : setData,
+			getPriority : getPriority
 		}
 
 
@@ -38,6 +40,18 @@
 
 		function setData(data) {
 			angular.extend(this,data);
-		}		
+		}
+		
+		function getPriority(){
+			return this.priority.level.point + this.priority.point;	
+		}
+		
+		function isAssignToSprint(){
+			return this.assignToSprint == null ;
+		}
+		
+		function isAssignToSprintID(sprintID){
+			return this.assignToSprint == sprintID ;
+		}
 	}
 }());
