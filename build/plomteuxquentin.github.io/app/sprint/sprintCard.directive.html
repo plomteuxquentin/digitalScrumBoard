@@ -1,0 +1,15 @@
+<div class="col-md-2 card btn " 
+		 ng-click="forEdition(entity)"
+		 ng-mouseenter="infoBox=true" ng-mouseleave="infoBox=false"
+		 style="min-height:200px;"
+		 ng-style="{'background-color':entity.status.color}"
+		 >
+	<p class="numero pull-left">{{entity.numero}}</p>
+	<p class="name">{{entity.title}}</p>
+	<p class="logo" ng-hide="infoBox"><i class="{{entity.status.logo}} fa-5x"></i></p>
+	<p class="role" ng-hide="infoBox"> <span class="estimation">{{entity.tasks.length}}</span> <i class="fa fa-cubes estimation "></i> <span class="estimation"> {{entity.getPoints()}} <i class="fa fa-clock-o numero"></i></span></p>
+	<p class="task-content" ng-show="infoBox">
+		{{entity.goal}}
+		<span class="task-comment"><i class="fa fa-comment-o"></i> {{entity.comments.length}}</span>
+	</p>
+</div>
