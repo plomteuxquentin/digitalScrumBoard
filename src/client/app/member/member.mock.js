@@ -12,7 +12,7 @@
 		if(MOCK_UP_MODE){
 			//MOCK
 			var members = [
-				{id : 'm1', firstName : 'Drogon', lastName : 'the dragon', role : AVAILABLE_ROLES.TEAM_MEMBER},
+				{firstName : 'Drogon', lastName : 'the dragon', role : AVAILABLE_ROLES.TEAM_MEMBER},
 				{firstName : 'Daenerys', lastName : 'Targaryen', role : AVAILABLE_ROLES.PRODUCT_OWNER, color : '#acb8ab'},
 				{firstName : 'Daario', lastName : 'Naharis', color : '#93F26D'},
 				{firstName : 'Tyrion', lastName : 'Lannister', role : AVAILABLE_ROLES.SCRUM_MASTER, color : '#e6bc7e'},

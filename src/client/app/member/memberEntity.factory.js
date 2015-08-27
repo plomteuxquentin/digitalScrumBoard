@@ -5,13 +5,11 @@
 		.module('app.member')
 		.factory('Member',memberEntity);
 
-	memberEntity.$inject = ['AVAILABLE_ROLES'];
+	memberEntity.$inject = ['AVAILABLE_ROLES','STATES'];
 
 	/* @ngInject */
-	function memberEntity(AVAILABLE_ROLES) {
-		
-		
-		
+	function memberEntity(AVAILABLE_ROLES,STATES) {
+				
 		var DEFAULT_COLOR='#FFFFFF';//TODO put in config
 
 		function Member(data) {
@@ -21,7 +19,9 @@
 			this.lastName = '';
 			this.role = AVAILABLE_ROLES.TEAM_MEMBER;
 			this.color = DEFAULT_COLOR;
-
+			this.tasks = [];
+			
+			
 			if (data) {
 				this.setData(data);
 			}

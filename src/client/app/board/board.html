@@ -1,0 +1,70 @@
+<section id="board-view" class="mainbar">
+	<section class="matter">
+		<div class="container">
+			
+			
+			
+
+
+			<div style="margin:5%">
+
+				<h1>Sprint n° 
+					<span >{{sprintBoard.sprint.numero }}</span>
+					<small> - <span>{{sprintBoard.sprint.title}}</span></small>
+					<a class="btn btn-primary" ui-sref="sprint({sprintId:sprintBoard.sprint.id})">Edit</a> 
+				</h1>
+				
+
+
+				<div class="col-md-2">Duration : {{sprintBoard.sprint.duration.title}}</div>
+
+				<div class="col-md-2">Status : {{sprintBoard.sprint.status.title}} <small><i ng-class="sprintBoard.sprint.status.logo"></i></small></div>
+
+				<div class="col-md-12 ">Goal :{{ sprintBoard.sprint.goal}}</div>
+			</div>	
+			
+			<div id="board">
+				<table id="boardTable" class="table table-bordered">
+					<thead>
+						<tr id="boardHeader">
+							<th style="width:22%; text-align: left;">
+								<span>Team members</span>
+							</th>
+							<th class="addStory" style="width:3%;">
+							</th>
+							<th ng-repeat="state in sprintBoard.STATES" style="width:25%;">
+								<div>
+									<span>{{state.title}}</span>
+								</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="member in sprintBoard.members track by member.id">
+							<th style="width:22%" ng-style="{'background-color':member.color}">
+								<div>
+									<div>
+										<span>{{member.getFullName()}}</span>
+									</div>
+								</div>
+							</th>
+							<td class="addTask">
+								<a title="Add task to user" ng-click="sprintBoard.assignNewTask(member)"><i class="glyphicon glyphicon-plus"></i></a>
+							</td>
+							<td as-sortable="sprintBoard.sprintSortOptions" ng-repeat="stateColum in sprintBoard.STATES" ng-model="member.tasks">
+								<div ng-repeat="task in member.tasks | stateFilter:stateColum" as-sortable-item>
+									<div as-sortable-item-handle>
+										<p ng-style="{'background-color':task.priority.level.color}">
+											<span class="numero"> {{task.numero}} - {{task.title}}</span>
+											<span class="estimation pull-right"><i class="{{task.type.logo}}"></i> <i class="fa fa-clock-o numero"></i> {{task.estimation}}</span>
+										</p>
+									</div>
+								</div>
+							</td>
+						</tr>						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+</section>

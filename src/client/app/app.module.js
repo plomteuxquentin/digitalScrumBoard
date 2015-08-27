@@ -7,7 +7,8 @@
         'app.layout',
 				'app.member',
 				'app.task',
-				'app.sprint'
+				'app.sprint',
+				'app.board'
 
     ]);
 

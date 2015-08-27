@@ -22,7 +22,7 @@
 					controllerAs: 'vm',
 					title: 'Planning',
 					settings: {
-						nav: 5,
+						nav: 3,
 						content: '<i class="fa fa-calendar"></i> Planning'
 					}
 				}

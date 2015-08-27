@@ -140,7 +140,8 @@
 
 			//$http.put(scope.entity.baseURI+data.id,data).then(onSuccess,onFailure);
 
-			onSuccess(data)
+			
+			onSuccess(data);
 
 			function onSuccess(reponse){
 				var entity = scope._retrieveInstance(reponse.id,reponse);
@@ -210,6 +211,9 @@
 			if(!data.id){
 				this._create(data,deferred)
 			}else {
+				
+				//!\ TODO CHECK WHEN assignToSprint is update
+				
 				this._update(data,deferred)
 			}
 

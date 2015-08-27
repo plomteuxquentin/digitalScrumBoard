@@ -5,23 +5,23 @@
 		.module('app.sprint')
 		.controller('SprintsController', SprintsController);
 
-	SprintsController.$inject = ['sprintManager','taskManager', 'logger', '$modal', 'Task','STATUSES'];
+	SprintsController.$inject = ['$state', 'sprintManager','taskManager', 'logger', '$modal', 'Task','STATUSES'];
 	/* @ngInject */
-	function SprintsController(sprintManager,taskManager, logger, $modal, Task,STATUSES) {
+	function SprintsController($state, sprintManager, taskManager, logger, $modal, Task, STATUSES) {
+		
 		var vm = this;
 
-
 		vm.title = 'Sprints Planning';
+		
 		vm.STATUSES = [];
-
 		angular.forEach(STATUSES,function(status){
 			vm.STATUSES.push(status);	
 		});
 		
-		vm.startStopModal = startStopModal;
+		vm.goToDetails = goToDetails;
+		vm.goToBoard = goToBoard;
 
 		activate();
-
 
 
 		function activate() {
@@ -33,11 +33,8 @@
 		}
 
 
-		
-		
-		
-		
-		
+
+		//!\ UNUSES
 		//Configure and open upsert modal
 		function startStopModal(sprint) {
 
@@ -78,7 +75,13 @@
 			}
 		}
 		
+		function goToDetails(entity){
+			$state.go('sprint',{sprintId:entity.id});
+		}	
 		
+		function goToBoard(entity){
+			$state.go('board',{boardId:entity.id});
+		}
 
 		function upsertSprint(sprint){
 			var actionTitle = (sprint.id) ? 'Sprint update' : 'Sprint add';

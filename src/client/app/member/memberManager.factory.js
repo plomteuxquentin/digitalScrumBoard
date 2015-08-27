@@ -30,7 +30,7 @@
 			/* Public Methods */
 			/* Use this function in order to get an Entity instance by it's id */
 			getMember:getEntity,
-			getMembers:getEntities,
+			getAll:getEntities,
 			/* Use this function in order to get instances of all the entities */
 			loadAllMembers: loadAllEntities,
 			/*  This function is useful when we got somehow the book data and we wish to store it or update the pool and get a book instance in return */

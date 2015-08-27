@@ -22,7 +22,7 @@
 
 			</div>
 			<div class="row">
-				<dsc-sprint-card ng-repeat="sprint in vm.sprints | statusFilter:vm.STATUSES track by sprint.id" entity="sprint" for-edition="vm.startStopModal" type="sprint"></dsc-sprint-card>
+				<dsc-sprint-card ng-repeat="sprint in vm.sprints | statusFilter:vm.STATUSES track by sprint.id" entity="sprint" for-edition="vm.goToBoard" type="sprint"></dsc-sprint-card>
 			</div>
 		</div>
 	</section>

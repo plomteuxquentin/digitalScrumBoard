@@ -36,6 +36,7 @@
 					<ul>
 						<li ng-repeat="task in vm.sprint.tasks | orderBy:'getPriority()'">{{task.title}} <small class="pull-right"><i class="{{task.type.logo}}"></i> <i class="{{task.state.logo}}"></i> <i class="fa fa-clock-o"></i> {{task.estimation}}</small></li>
 					</ul>
+					
 					<p ng-hide="vm.sprint.tasks.length"> no task in sprint</p>
 				</div>
 
@@ -49,13 +50,10 @@
 
 
 			<div class="row col-md-offset-2 col-md-8" ng-hide="vm.isNew || vm.formEdit.$visible">
-
 				<h2>{{vm.sprint.comments.length}} comments </h2>
 				<p>{{vm.sprint.comments || '-' }}</p>
 				<button class="btn btn-default" type="button" disabled>Add Comment</button>
 			</div>
-
-
 
 
 

@@ -3,6 +3,7 @@
 	
 	angular.module('app.member', [
 		'app.core',
-		'app.widgets'
+		'app.widgets',
+		'app.task'
 	]);
 })();

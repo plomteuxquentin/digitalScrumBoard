@@ -5,46 +5,22 @@
 		.module('app.sprint')
 		.controller('sprintSelectModalController',sprintSelectModalController);
 
-	sprintSelectModalController.$inject = ['taskManager','$modalInstance','TYPES','PRIORITIES', 'modalConfig'];
+	sprintSelectModalController.$inject = ['$modalInstance','TYPES','PRIORITIES', 'modalConfig'];
 	/* @ngInject */
-	function sprintSelectModalController(taskManager,$modalInstance,TYPES,PRIORITIES, modalConfig) {
+	function sprintSelectModalController($modalInstance,TYPES,PRIORITIES, modalConfig) {
 		var vm = this;
 
 
 
-		vm.entity = angular.copy(modalConfig.entity);
-		vm.title = 'Select tasks for sprint n° '+vm.entity.number;
+		vm.title= modalConfig.title;
 		vm.isNew = modalConfig.isNew;
+		vm.tasks =modalConfig.tasks;
 
 		vm.select = selectTask;
-		
-		activate();
-		
-		
-		
-		function activate(){
-			
-			//pre select task from sprint
-			var tasksSelected = vm.entity.tasks;
-			vm.tasks = taskManager.getAll();
-			
-			angular.forEach(vm.tasks,function(task){
-					angular.forEach(tasksSelected,function(taskSelected){
-						if(task.id == taskSelected.id){
-							task.isSelected = true;	
-						}
-					});
-			});
-		}
 		
 
 		function selectTask(task){
 			task.isSelected = !task.isSelected;
-		}
-			
-		
-		vm.reset = function () {
-			vm.entity = angular.copy(modalConfig.entity);
 		}
 
 		vm.ok = function () {
@@ -52,6 +28,7 @@
 			
 			angular.forEach(vm.tasks,function(task){
 				if(task.isSelected){
+					delete task.isSelected;
 					result.push(task);
 				}
 			});

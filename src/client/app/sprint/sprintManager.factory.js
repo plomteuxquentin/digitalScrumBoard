@@ -5,11 +5,11 @@
 		.module('app.sprint')
 		.factory('sprintManager',sprintManager);
 
-	sprintManager.$inject = ['$http','$q','Sprint'];
+	sprintManager.$inject = ['$http','$q','Sprint','Task','taskManager'];
 
 
 	/* @ngInject */
-	function sprintManager($http,$q,Entity) {
+	function sprintManager($http,$q,Entity,Task,taskManager) {
 
 
 		var _entity = {
@@ -27,6 +27,10 @@
 			_remove: _remove,
 			_create: _create,
 			_update: _update,
+			_addTasks: _addTasks,
+			_removeTasks: _removeTasks,
+			/* Update tasks attribut and update each task in taskManager*/
+			_updateTasks: _updateTasks,
 			/* Public Methods */
 			/* Use this function in order to get an Entity instance by it's id */
 			get:getEntity,
@@ -37,8 +41,6 @@
 			upsert: upsertEntity,
 			/*	Remove Entity*/
 			remove: removeEntity,
-			/* Update tasks attribut and update each task in taskManager*/
-			updateTasks: updateTasks
 		};
 
 		return service;
@@ -156,15 +158,83 @@
 
 		}
 
+		//Update task with new sprint ID
 		function _addTasks(id,idsToAdd){
-			for
+			var deferred = $q.defer();
+
+			var promises = idsToAdd.map(function(taskID){
+				var task = {id : taskID, assignToSprint : id};
+				return taskManager.upsert(task);
+			});
+			
+			$q.all(promises).then(deferred.resolve,deferred.reject);
+			
+			return deferred;
 		}
 		
 		function _removeTasks(id,idsToRemove){
+			var deferred = $q.defer();
+
+			var promises = idsToRemove.map(function(taskID){
+				var task = {id : taskID, assignToSprint : undefined};
+				return taskManager.upsert(task);
+			});
 			
+			$q.all(promises).then(deferred.resolve,deferred.reject);
+			
+			return deferred;
 		}
 		
-		
+		function _updateTasks(sprint,newTasks,deferred){
+			//!\ Change reference to task into reference to task ID
+			
+			
+			var idsToRemove = [];
+			var idsToAdd = [];
+			
+			var scope = this;
+
+			var newTaskId = newTasks.map(function(task){
+				return task.id;
+			});
+			
+			var oldTaskId = sprint.tasks.map(function(task){
+				return task.id;
+			});
+
+			//Remove task that are no longer selected
+			angular.forEach(oldTaskId, function(taskId){
+				/*task id is not in tasksArrayId_NEW*/
+				if(newTaskId.indexOf(taskId)<0){
+					idsToRemove.push(taskId);
+				}
+			});
+
+			//Add task that are not in sprint
+			angular.forEach(newTaskId,function(taskId){
+				/*task id is not is sprint.tasks*/
+				if(oldTaskId.indexOf(taskId)<0){
+					idsToAdd.push(taskId)
+				}
+			});
+
+			var addPromise = this._addTasks(sprint.id,idsToAdd);
+			var removePromise = this._removeTasks(sprint.id,idsToRemove);
+
+			$q.all([addPromise,removePromise]).then(onTaskUpdateSuccess,onTaskUpdateFailure);
+
+			//If task are update => update sprint
+			function onTaskUpdateSuccess(reponse){
+				//var message = reponse[0]+' tasks added and '+reponse[1]+' task remove';
+				scope._update({id:sprint.id,tasks:newTasks},deferred)
+			}
+
+			function onTaskUpdateFailure(reason){
+				//var message = reponse[0]+' tasks added and '+reponse[1]+' task remove';
+				console.error(reason);
+				deferred.reject(reason);
+			}
+		}
 
 		//////////// PUBLIC //////////////
 
@@ -176,7 +246,7 @@
 			return entities;
 		}
 
-		function getEntity(id) {
+		function getEntity(id) {			
 			var deferred = $q.defer();
 			var entity = this._search(id);
 			if (entity) {
@@ -216,16 +286,39 @@
 
 		function upsertEntity(data) {					
 			var scope = this;
+			var midDeferred = $q.defer();
 			var deferred = $q.defer();
 
-			if(!data.id){
-				this._create(data,deferred)
-			}else {
-				this._update(data,deferred)
+
+			//Do the tasks update after
+			var tasks = [];
+			
+
+			if(data.tasks){
+				var tasksTMP = data.tasks;
+				delete data.tasks;
+				
+				tasks = tasksTMP.map(function(task){
+					var newTask = new Task();
+					newTask.setData(task);
+					return newTask;
+				});
+				
+				midDeferred.promise.then(addUpdatedTasks);
 			}
-
+					
+			if(!data.id){
+				scope._create(data, midDeferred);
+			}else {
+				scope._update(data, midDeferred);
+			}
+			
 			return deferred.promise;
-
+			
+			//Update tasks now
+			function addUpdatedTasks(sprint){
+				scope._updateTasks(sprint,tasks,deferred);
+			}
 		}
 
 		function removeEntity(data, deferred) {
@@ -238,68 +331,6 @@
 			}
 			return deferred.promise;
 
-		}
-
-		
-		function updateTasks(id,tasksArrayId_NEW){
-			var deferred = $q.defer();
-			var sprintDeferred = $q.defer();
-			var entity = this._search(id);
-			if (entity) {
-				sprintDeferred.resolve(entity);
-			} else {
-				this._load(id, sprintDeferred);
-			}
-			
-			return deferred.promise;
-			
-			
-			sprintDeferred.promise.then(sprintFound,sprintNotFound);
-			
-			
-			function sprintFound(sprint){
-				
-				var idsToRemove = [];
-				var idsToAdd = [];
-				
-				//Remove task that are no longer selected
-				angular.forEach(sprint.tasks, function(task){
-					/*task id is not in tasksArrayId_NEW*/
-					if(tasksArrayId_NEW.indexOf(task.id)<0){
-						idsToRemove.push(task.id);
-					}
-				});
-				
-				//Add task that are not in sprint
-				angular.forEach(tasksArrayId_NEW,function(task){
-					/*task id is not is sprint.tasks*/
-					if(sprint.tasks.indexOf(task.id)<0){
-						idsToAdd.push(task.id)
-					}
-				});
-				
-				var addPromise = this._addTask(sprint.id,idsToAdd);
-				var removePromise = this._removeTask(sprint.id,idsToAdd);
-				
-/*			
-				TODO
-				addPromise.error(addPromiseFail);
-				removePromise.error(removePromiseFail);
-*/
-				$q.all(addPromise,removePromise).success(onUpdateSuccess);
-				
-				function onUpdateSuccess(reponse){
-					var message = reponse[0]+' tasks added and '+reponse[1]+' task remove';
-					
-				 	sprint.tasks = 
-					
-					
-				}
-			}
-			
-			function sprintNotFound(reason){
-				console.error(reason);
-			}
 		}
 	}
 }());

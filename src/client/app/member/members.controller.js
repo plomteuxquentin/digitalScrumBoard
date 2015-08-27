@@ -28,7 +28,7 @@
 		function activate() {
 			//TODO: MOVE INTO STATE
 			logger.info('Loading Members');
-			vm.members = memberManager.getMembers();
+			vm.members = memberManager.getAll();
 			logger.info('Activated Members View');
 		}
 		
@@ -86,13 +86,13 @@
 		
 		function upsertMember(member,actionTitle){
 			memberManager.setMember(member);
-			vm.members = memberManager.getMembers();
+			vm.members = memberManager.getAll();
 			logger.success(member.getFullName(),member,actionTitle);
 		}
 		
 		function deleteMember(member){
 			memberManager.deleteMember(member);
-			vm.members = memberManager.getMembers();
+			vm.members = memberManager.getAll();
 			logger.success(member.getFullName(),member,'Member Deleted');
 		}
 	}
