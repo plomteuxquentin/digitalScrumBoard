@@ -247,7 +247,7 @@
 			return entities;
 		}
 
-		function getEntity(id) {			
+		function getEntity(id) {
 			var deferred = $q.defer();
 			var entity = this._search(id);
 			if (entity) {

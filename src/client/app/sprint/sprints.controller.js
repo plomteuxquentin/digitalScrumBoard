@@ -28,6 +28,7 @@
 
 		
 		function goToDetails(entity){
+			console.log(entity);
 			$state.go('sprint',{sprintId:entity.id});
 		}	
 		

@@ -39,7 +39,7 @@
 					controller: 'SprintController',
 					controllerAs: 'vm',
 					resolve:{
-						sprint : loadSprint,
+						sprint :loadSprint,
 						tasks :getTaskAvailable,
 					}
 				}
@@ -65,16 +65,16 @@
 		function loadSprint($q,$stateParams,sprintManager,logger){
 			logger.info('Loading Sprint');
 			//if creating a new sprint
-			if($stateParams.sprintId === null || $stateParams.sprintId.length == 0){				
+			if($stateParams.sprintId === null || $stateParams.length == 0){				
 				return sprintManager.getNew();
 			}
 			return sprintManager.get($stateParams.sprintId);
 		}
 		
 	
-		getTaskAvailable.$inject = ['sprint','taskManager'];
+		getTaskAvailable.$inject = ['$q','sprint','taskManager'];
 		/* @ngInject */
-		function getTaskAvailable(sprint,taskManager){
+		function getTaskAvailable($q,sprint,taskManager){
 			
 			var tasksToDisplay = [];
 			
