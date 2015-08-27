@@ -20,7 +20,7 @@
 		
 		vm.reset = function(){
 			vm.member = angular.copy(memberModalConfig.member);
-		}
+		};
 		
 		vm.ok = function () {
 			var result = {operation:'UPSERT', member:vm.member};

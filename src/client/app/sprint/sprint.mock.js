@@ -23,7 +23,7 @@
 				{id:11,title:'TODO',content:'TODO',estimation:5,numero:11,priority:{level:PRIORITIES.LOW,point:0},state:STATES.PENDING,type:TYPES.BUG},
 				{id:12,title:'TODO',content:'TODO',estimation:2,numero:12,priority:{level:PRIORITIES.LOW,point:0},state:STATES.DONE,type:TYPES.BUG},
 				{id:13,title:'TODO',content:'TODO',estimation:8,numero:13,priority:{level:PRIORITIES.HIGH,point:0},state:STATES.IN_PROGRESS,type:TYPES.BUG},
-			]
+			];
 			var mocks = [
 				{id:1,numero:'1', title:'Invade Westeros', goal:'Seize control of the Iron throne', tasks : [tasks[0],tasks[11],tasks[12]],status:STATUSES.PLANNED,duration:DURATIONS.ONE_WEEK},
 				{id:2,numero:'2', title:'Build up army', goal:'Create an army to conquere Westeros', tasks : [tasks[1],tasks[2],tasks[3],tasks[4],tasks[5]],status:STATUSES.STARTED,duration:DURATIONS.ONE_MONTH},

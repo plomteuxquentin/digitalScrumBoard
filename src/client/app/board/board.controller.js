@@ -15,7 +15,7 @@
 		sprintBoard.sprint = {};
 		//$scope.sprintBoard = BoardService.sprintBoard(BoardDataFactory.sprint);
 		sprintBoard.sprintSortOptions = {
-			accept: function (sourceItemHandleScope, destSortableScope) {console.log("accept");return true},//override to determine drag is allowed or not. default is true.
+			accept: function (sourceItemHandleScope, destSortableScope) {console.log('accept');return true;},//override to determine drag is allowed or not. default is true.
 			itemMoved: function (event) {
 				console.log(event.dest);
 				//console.log(event.source.itemScope.task);

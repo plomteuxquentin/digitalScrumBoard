@@ -33,7 +33,7 @@
 			else{
 				vm.isNew = false;
 				vm.okTitle = 'Update';
-				vm.title = "Task : "+vm.task.title;
+				vm.title = 'Task : '+vm.task.title;
 			}//if user edit a task
 
 			//TODO MOVE INTO RESOLVER

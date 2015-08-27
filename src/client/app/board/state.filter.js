@@ -20,11 +20,11 @@
 
 
 			angular.forEach(tasks, function(task) {
-				if(task.state.id == state.id){
+				if(task.state.id === state.id){
 						out.push(task);
 				}
 			});
 			return out;
-		};
+		}
 	}
 })();

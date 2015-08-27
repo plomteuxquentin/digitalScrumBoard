@@ -20,15 +20,17 @@
 			var out = [];
 
 
-			var activeTypeId = []
+			var activeTypeId = [];
 			angular.forEach(statuses,function(status){
 				if(status.isActive){
 					activeTypeId.push(status.id);
 				}
-			})
+			});
 
 			//No filter active
-			if(activeTypeId.length == 0) return sprints;
+			if(activeTypeId.length === 0) {
+				return sprints;
+			}
 
 
 			angular.forEach(sprints, function(sprint) {

@@ -41,7 +41,7 @@
 			upsert: upsertEntity,
 			/*	Remove Entity*/
 			remove: removeEntity,
-			getNew: function(){ return new Entity()}
+			getNew: function(){ return new Entity();}
 		};
 
 		return service;
@@ -79,7 +79,7 @@
 
 			//$http.get(scope._entity.baseURI + id).then(onSuccess,onFailure);
 
-			onFailure("No server available");
+			onFailure('No server available');
 
 			function onSuccess(data){
 				var entity = scope._retrieveInstance(data.id,data);
@@ -145,7 +145,7 @@
 
 			//$http.put(scope.entity.baseURI+data.id,data).then(onSuccess,onFailure);
 
-			onSuccess(data)
+			onSuccess(data);
 
 			function onSuccess(reponse){
 				var entity = scope._retrieveInstance(reponse.id,reponse);
@@ -153,7 +153,7 @@
 			}
 
 			function onFailure(reason){
-				console.error('unable to update '+scope._entity.name+' from '+scope._entity.baseUrl+id);
+				console.error('unable to update '+scope._entity.name+' from '+scope._entity.baseUrl);
 				deferred.reject(reason);
 			}
 
@@ -215,7 +215,7 @@
 			angular.forEach(newTaskId,function(taskId){
 				/*task id is not is sprint.tasks*/
 				if(oldTaskId.indexOf(taskId)<0){
-					idsToAdd.push(taskId)
+					idsToAdd.push(taskId);
 				}
 			});
 
@@ -262,7 +262,7 @@
 			var deferred = $q.defer();
 			var scope = this;
 
-			$http.get(entity.baseUrl).then(onSuccess,onFailure);
+			$http.get(_entity.baseUrl).then(onSuccess,onFailure);
 
 			return deferred.promise;
 
@@ -323,12 +323,12 @@
 		}
 
 		function removeEntity(data, deferred) {
-			var deferred = $q.defer();
+			var deferred = $q.defer();//TODO PROBLEM TO CHECK
 			var entity = this._search(data.id);
 			if (entity) {
 				this._remove(entity.id, deferred);
 			} else {
-				deferred.reject(entity.name+' id:'+id+' not found.');
+				deferred.reject(entity.name+' id:'+data.id+' not found.');
 			}
 			return deferred.promise;
 

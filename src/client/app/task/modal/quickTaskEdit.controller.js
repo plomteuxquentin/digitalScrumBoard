@@ -32,7 +32,7 @@
 
 		vm.reset = function () {
 			vm.entity = angular.copy(modalConfig.entity);
-		}
+		};
 
 		vm.ok = function () {
 			var result = {operation: 'UPDATE',entity: vm.entity};

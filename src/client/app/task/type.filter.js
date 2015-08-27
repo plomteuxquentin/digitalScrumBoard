@@ -19,15 +19,17 @@
 			var out = [];
 
 
-			var activeTypeId = []
+			var activeTypeId = [];
 			angular.forEach(types,function(type){
 				if(type.isActive){
 					activeTypeId.push(type.id);
 				}
-			})
+			});
 			
 			//No filter active
-			if(activeTypeId.length == 0) return tasks;
+			if(activeTypeId.length === 0){
+				return tasks;
+			}
 
 			
 			angular.forEach(tasks, function(task) {
@@ -37,6 +39,6 @@
 				}
 			});
 			return out;
-		};
+		}
 	}
 })();

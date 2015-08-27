@@ -23,7 +23,7 @@
 		}
 
 		vm.ok = function () {
-			var result = []
+			var result = [];
 			
 			angular.forEach(vm.tasks,function(task){
 				if(task.isSelected){

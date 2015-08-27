@@ -21,7 +21,7 @@
 			this.content = '';
 			this.estimation = 0;
 			this.comments = [];
-			this.priority = {level:{}, point:0} //LOW,MEDIUM, HIGH, EXTREM
+			this.priority = {level:{}, point:0}; //LOW,MEDIUM, HIGH, EXTREM
 			this.assignToSprint = undefined; //id of sprint where the tasks is assign
 			this.assignToMember = undefined; //id of member in charge of the tasks
 
@@ -29,14 +29,14 @@
 				this.setData(data);
 			}
 			// Some other initializations related to book
-		};
+		}
 
 		Task.prototype ={
 			setData : setData,
 			getPriority : getPriority,
 
 			isAvailableForSprintId:isAvailableForSprintId
-		}
+		};
 
 
 		return Task;
@@ -51,7 +51,7 @@
 		}
 
 		function isAvailableForSprintId(sprintId){
-			if(this.assignToSprint == sprintId){
+			if(this.assignToSprint === sprintId){
 				return true;
 			}
 			return this.assignToSprint === undefined;

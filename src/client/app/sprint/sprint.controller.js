@@ -10,7 +10,7 @@
 	function SprintController($filter,sprintManager, logger ,$state, STATUSES, SPRINT_DURATIONS, $scope,$modal,taskManager,sprint,tasks) {
 		var vm = this;
 
-		var tasksAvailable = []
+		var tasksAvailable = [];
 		vm.STATUSES = [];
 		vm.DURATIONS = [];
 
@@ -36,7 +36,7 @@
 			else{
 				vm.isNew = false;
 				vm.okTitle = 'Update';
-				vm.title = "Sprint : "+vm.sprint.title;
+				vm.title = 'Sprint : '+vm.sprint.title;
 			}//if user edit a sprint
 			
 			
@@ -88,10 +88,10 @@
 			//Mark task as selected
 			angular.forEach(tasksToDisplay,function(task){
 				for(var i = 0 ; i < vm.sprint.tasks.length; i++){
-					if(task.id == vm.sprint.tasks[i].id){
+					if(task.id === vm.sprint.tasks[i].id){
 						task.isSelected = true;
 					}
-				};	
+				}	
 			});
 			
 			var config = {

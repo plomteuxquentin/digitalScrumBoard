@@ -25,7 +25,7 @@
 				{id:11,title:'TODO',content:'TODO',estimation:5,numero:11,priority:{level:PRIORITIES.LOW,point:0},state:STATES.PENDING,type:TYPES.BUG},
 				{id:12,title:'TODO',content:'TODO',estimation:2,numero:12,priority:{level:PRIORITIES.LOW,point:0},state:STATES.DONE,type:TYPES.BUG},
 				{id:13,title:'TODO',content:'TODO',estimation:8,numero:13,priority:{level:PRIORITIES.HIGH,point:0},state:STATES.IN_PROGRESS,type:TYPES.BUG},
-			]
+			];
 			
 			angular.forEach(mocks,function(value){
 				manager.upsert(value);

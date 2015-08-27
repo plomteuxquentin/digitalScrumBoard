@@ -43,14 +43,14 @@
 						return config;
 					},
 					roles : function(){
-						var roles = []
+						var roles = [];
 						angular.forEach(AVAILABLE_ROLES, function(value) {
 							roles.push(value);
 						});
-						return roles
+						return roles;
 					}
 				}
-			}
+			};
 			
 			
 			if (member) {
@@ -60,7 +60,7 @@
 					modalAction : 'Update',
 					actionTitle : 'Member updated',
 					isNew : false,
-				}
+				};
 			} else {
 				config = {
 					member : memberManager.getNew(),
@@ -68,7 +68,7 @@
 					modalAction : 'Create',
 					actionTitle : 'Member added',
 					isNew : true,
-				}
+				};
 			}
 
 			
@@ -76,13 +76,13 @@
 			modalInstance.result.then(accept, refuse);
 			
 			function accept(modalMembre){
-				if(modalMembre.operation == 'UPSERT'){ upsertMember(modalMembre.member,config.actionTitle);} 
-				else if(modalMembre.operation == 'DELETE'){ deleteMember(modalMembre.member);}
-				else { console.error('Unknow Operation')}
+				if(modalMembre.operation === 'UPSERT'){ upsertMember(modalMembre.member,config.actionTitle);} 
+				else if(modalMembre.operation === 'DELETE'){ deleteMember(modalMembre.member);}
+				else { console.error('Unknow Operation');}
 			}
 			
 			function refuse(){
-				console.log('Member modal dismissed')
+				console.log('Member modal dismissed');
 			}
 		}
 		
@@ -96,7 +96,7 @@
 			
 			function onUpdateFailure(reason){
 				console.error(reason);
-				logger.error("",member,actionTitle+' failed');
+				logger.error('',member,actionTitle+' failed');
 			}
 		}
 		

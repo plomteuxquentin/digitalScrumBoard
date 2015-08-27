@@ -65,7 +65,7 @@
 		function loadSprint($q,$stateParams,sprintManager,logger){
 			logger.info('Loading Sprint');
 			//if creating a new sprint
-			if($stateParams.sprintId === null || $stateParams.length == 0){				
+			if($stateParams.sprintId === null || $stateParams.length === 0){				
 				return sprintManager.getNew();
 			}
 			return sprintManager.get($stateParams.sprintId);

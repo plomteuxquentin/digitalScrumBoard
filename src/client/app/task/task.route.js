@@ -61,7 +61,7 @@
 		function loadTask($stateParams,taskManager,logger){
 			logger.info('Loading Task');
 			//if creating a new task
-			if($stateParams.taskId === null || $stateParams.taskId.length == 0){						
+			if($stateParams.taskId === null || $stateParams.taskId.length === 0){						
 				return taskManager.getNew();
 			}
 			return taskManager.get($stateParams.taskId);

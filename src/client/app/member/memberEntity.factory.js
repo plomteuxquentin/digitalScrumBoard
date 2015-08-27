@@ -26,12 +26,12 @@
 				this.setData(data);
 			}
 			// Some other initializations related to book
-		};
+		}
 		
 		Member.prototype ={
 			setData : setData,
 			getFullName : getFullName
-		}
+		};
 		
 
 		return Member;

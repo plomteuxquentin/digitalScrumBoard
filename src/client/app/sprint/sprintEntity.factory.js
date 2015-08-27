@@ -31,12 +31,12 @@
 				started : undefined,
 				plannedFinish : undefined,
 				finish: undefined
-			}
+			};
 
 			if (data) {
 				this.setData(data);
 			}
-		};
+		}
 
 		Sprint.prototype ={
 			setData : setData,
@@ -48,7 +48,7 @@
 			isFinish: isFinish,
 			setPlannedStart: setPlannedStart,
 			getPlannedFinish: getPlannedFinish
-		}
+		};
 
 
 		return Sprint;
@@ -70,10 +70,10 @@
 		//start sprint
 		function start(){
 			if(!isPlanned){
-				throw STATUS_ERROR.START;
+				throw STATUSES_ERROR.START;
 			}
 			
-			this.status = this.statuses.STARTED
+			this.status = this.statuses.STARTED;
 			
 			this.dates.started =  Date.now();
 		}
@@ -81,9 +81,9 @@
 		//finish sprint
 		function finish(){
 			if(!isStarted){
-				throw STATUS_ERROR.FINISH;
+				throw STATUSES_ERROR.FINISH;
 			}
-			this.status = this.statuses.STARTED
+			this.status = this.statuses.STARTED;
 
 			this.dates.finish =  Date.now();
 		}
@@ -102,16 +102,16 @@
 		
 		function setPlannedStart(date){
 			if(!isPlanned){
-				throw STATUS_ERROR.START;
+				throw STATUSES_ERROR.START;
 			}
-			this.dates.plannedStart(date)
+			this.dates.plannedStart(date);
 			this.dates.plannedFinish = this.getPlannedFinish();
 		}
 		
 		//return planned finish date base on started date and duration
 		function getPlannedFinish(){
 			if(!isStarted){
-				throw STATUS_ERROR.FINISH;
+				throw STATUSES_ERROR.FINISH;
 			}
 			if(!this.duration){
 				console.error("No duration provide");

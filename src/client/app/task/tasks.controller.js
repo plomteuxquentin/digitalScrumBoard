@@ -41,7 +41,7 @@
 						return config;
 					}
 				}
-			}
+			};
 
 			
 			if (task) {
@@ -64,13 +64,13 @@
 			modalInstance.result.then(accept, refuse);
 
 			function accept(modalResult){
-				if(modalResult.operation == 'UPDATE'){ upsertTask(modalResult.entity);} 
-				else if(modalResult.operation == 'DELETE'){ deleteTask(modalResult.entity);}
-				else { console.error('Unknow Operation')}
+				if(modalResult.operation === 'UPDATE'){ upsertTask(modalResult.entity);} 
+				else if(modalResult.operation === 'DELETE'){ deleteTask(modalResult.entity);}
+				else { console.error('Unknow Operation');}
 			}
 
 			function refuse(){
-				console.log('modal dismissed')
+				console.log('modal dismissed');
 			}
 		}
 

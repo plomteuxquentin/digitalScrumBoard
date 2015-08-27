@@ -17,8 +17,8 @@
 				{firstName : 'Daario', lastName : 'Naharis', color : '#93F26D'},
 				{firstName : 'Tyrion', lastName : 'Lannister', role : AVAILABLE_ROLES.SCRUM_MASTER, color : '#e6bc7e'},
 				{firstName : 'Missandei', lastName : '', role : AVAILABLE_ROLES.TEAM_MEMBER, color : '#7dd5ff'}
-			]
-
+			];
+			
 			angular.forEach(members,function(value){
 				manager.upsert(value);
 			});
