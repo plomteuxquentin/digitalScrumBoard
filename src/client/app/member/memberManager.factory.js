@@ -32,11 +32,12 @@
 			getMember:getEntity,
 			getAll:getEntities,
 			/* Use this function in order to get instances of all the entities */
-			loadAllMembers: loadAllEntities,
+			loadAll: loadAllEntities,
 			/*  This function is useful when we got somehow the book data and we wish to store it or update the pool and get a book instance in return */
-			setMember: upsertEntity,
+			upsert: upsertEntity,
 			/*	Remove Entity*/
 			deleteMember: deleteEntity,
+			getNew : function(){return new Member()},
 		};
 				
 		return service;

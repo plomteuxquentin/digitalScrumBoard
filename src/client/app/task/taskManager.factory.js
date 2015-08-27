@@ -37,6 +37,7 @@
 			upsert: upsertEntity,
 			/*	Remove Entity*/
 			remove: removeEntity,
+			getNew: function() {return new Entity();}
 		};
 
 		return service;

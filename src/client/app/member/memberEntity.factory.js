@@ -5,10 +5,10 @@
 		.module('app.member')
 		.factory('Member',memberEntity);
 
-	memberEntity.$inject = ['AVAILABLE_ROLES','STATES'];
+	memberEntity.$inject = ['AVAILABLE_ROLES'];
 
 	/* @ngInject */
-	function memberEntity(AVAILABLE_ROLES,STATES) {
+	function memberEntity(AVAILABLE_ROLES) {
 				
 		var DEFAULT_COLOR='#FFFFFF';//TODO put in config
 

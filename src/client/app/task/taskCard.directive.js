@@ -3,18 +3,17 @@
 
 	angular
 		.module('app.task')
-		.directive('dscTaskCard', taskCard);
+		.directive('dsbTaskCard', taskCard);
 
 	/* @ngInject */
 	function taskCard () {
 		// Display task Info
 		// Usage:
-		//  <dsc-task-card entity="task" for-edition="Edition function">
+		//  <dsb-task-card entity="task">
 		var directive = {
 			restrict: 'E',
 			scope: {
 				entity: '=',
-				forEdition: '='
 			},
 			templateUrl:'app/task/taskCard.directive.html',			
 		};

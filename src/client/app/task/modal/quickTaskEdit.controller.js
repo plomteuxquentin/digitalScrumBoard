@@ -3,44 +3,39 @@
 
 	angular
 		.module('app.task')
-		.controller('upsertTaskModalController',upsertTaskModalController);
+		.controller('QuickTaskEditController',QuickTaskEditController);
 
-	upsertTaskModalController.$inject = ['$modalInstance','TYPES','PRIORITIES', 'modalConfig'];
+	QuickTaskEditController.$inject = ['$modalInstance','TYPES','PRIORITIES', 'modalConfig'];
 	/* @ngInject */
-	function upsertTaskModalController($modalInstance,TYPES,PRIORITIES, modalConfig) {
+	function QuickTaskEditController($modalInstance,TYPES,PRIORITIES, modalConfig) {
 		var vm = this;
 
 	
 		vm.types = [];
+		vm.priorities = [];
+		vm.entity = angular.copy(modalConfig.entity);
+		vm.title = modalConfig.modalTitle;
+		vm.isNew = modalConfig.isNew;
+		vm.okTitle = modalConfig.okTitle;
 
+		
+		
 		angular.forEach(TYPES, function(value) {
 			vm.types.push(value);
 		});
-	
-		vm.priorities = [];
 
 		angular.forEach(PRIORITIES, function(value) {
 			vm.priorities.push(value);
 		});
 		
 		
-		vm.title = modalConfig.modalTitle;
-		vm.isNew = modalConfig.isNew;
-
-		if (vm.isNew) {
-			vm.okTitle = 'Create';
-		} else {
-			vm.okTitle = 'Update';
-		}
-
-		vm.entity = angular.copy(modalConfig.entity);
 
 		vm.reset = function () {
 			vm.entity = angular.copy(modalConfig.entity);
 		}
 
 		vm.ok = function () {
-			var result = {operation: 'UPSERT',entity: vm.entity};
+			var result = {operation: 'UPDATE',entity: vm.entity};
 			$modalInstance.close(result);
 		};
 

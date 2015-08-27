@@ -6,7 +6,7 @@
 	var app = angular.module('app.task');
 
 
-
+	//Filter tasks based on thier type
 	app.filter('typeFilter',typeFilter);
 
 	typeFilter.$inject = [];

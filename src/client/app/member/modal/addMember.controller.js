@@ -5,22 +5,18 @@
 		.module('app.member')
 		.controller('MemberAddModalController', MemberAddModalController);
 
-	MemberAddModalController.$inject = ['$modalInstance', 'AVAILABLE_ROLES', 'memberModalConfig' ];
+	MemberAddModalController.$inject = ['$modalInstance', 'roles', 'memberModalConfig' ];
 	/* @ngInject */
-	function MemberAddModalController($modalInstance, AVAILABLE_ROLES, memberModalConfig) {
+	function MemberAddModalController($modalInstance, roles, memberModalConfig) {
 		var vm = this;
 
 		vm.title = memberModalConfig.modalTitle;
 		vm.okTitle = memberModalConfig.modalAction;		
 		vm.isNew =  memberModalConfig.isNew;		
-		
-		vm.AvailableRoles = [];
-
-		angular.forEach(AVAILABLE_ROLES, function(value) {
-			vm.AvailableRoles.push(value);
-		});
-		
+		vm.AvailableRoles = roles;
 		vm.member = angular.copy(memberModalConfig.member);
+		
+		
 		
 		vm.reset = function(){
 			vm.member = angular.copy(memberModalConfig.member);

@@ -7,6 +7,7 @@
 
 
 
+	//Filter sprint base on thier status
 	app.filter('statusFilter',statusFilter);
 
 	statusFilter.$inject = [];

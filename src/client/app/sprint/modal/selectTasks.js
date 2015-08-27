@@ -12,9 +12,8 @@
 
 
 
-		vm.title= modalConfig.title;
-		vm.isNew = modalConfig.isNew;
-		vm.tasks =modalConfig.tasks;
+		vm.title = modalConfig.title;
+		vm.tasks = modalConfig.tasks;
 
 		vm.select = selectTask;
 		
@@ -28,13 +27,12 @@
 			
 			angular.forEach(vm.tasks,function(task){
 				if(task.isSelected){
-					delete task.isSelected;
 					result.push(task);
 				}
+				delete task.isSelected;
 			});
 			$modalInstance.close(result);
 		};
-
 
 
 		vm.cancel = function () {

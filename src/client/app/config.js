@@ -2,6 +2,8 @@
 	'use strict';
 
 
+	
+	//Load mockUp or not
 	var MOCK_UP_MODE = true;
 
 	var mod = angular.module('app');

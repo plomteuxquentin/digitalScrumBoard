@@ -3,7 +3,7 @@
 
 	angular
 		.module('app.member')
-		.directive('dscMemberCard', memberCard);
+		.directive('dsbMemberCard', memberCard);
 
 	/* @ngInject */
 	function memberCard () {
@@ -14,7 +14,6 @@
 			restrict: 'E',
 			scope: {
 				member: '=',
-				forEdition: '='
 			},
 			templateUrl:'app/member/memberCard.directive.html',			
 		};

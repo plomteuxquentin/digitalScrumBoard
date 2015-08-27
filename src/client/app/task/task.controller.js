@@ -5,69 +5,51 @@
 		.module('app.task')
 		.controller('TaskController', TaskController);
 
-	TaskController.$inject = ['$filter','taskManager', 'logger', '$state', '$stateParams', 'Task', 'TYPES', 'PRIORITIES', 'STATES','$scope'];
+	TaskController.$inject = ['$filter','taskManager', 'logger', '$state', 'TYPES', 'PRIORITIES', 'STATES','$scope','task'];
 	/* @ngInject */
-	function TaskController($filter,taskManager, logger ,$state, $stateParams, Task, TYPES, PRIORITIES, STATES,$scope) {
+	function TaskController($filter,taskManager, logger ,$state, TYPES, PRIORITIES, STATES,$scope,task) {
 		var vm = this;
 
-		var _task = null;
 		vm.TYPES = [];
 		vm.PRIORITIES = [];
 		vm.STATES = [];
 		
 
-
-		
-		
-		activate($stateParams.taskId);
+		activate(task);
 
 
+		function activate(taskToDisplay) {
 
-		function activate(taskId) {
-			//TODO: MOVE INTO STATE
-			logger.info('Loading task');
+			vm.task = angular.copy(taskToDisplay);
 
-			if(taskId === null || taskId.length == 0){
+			if(taskToDisplay.id === null){
 				vm.isNew = true;
 				vm.okTitle = 'Create';
-				_task = new Task();
-				vm.task = angular.copy(_task);
-				console.log(vm.task);
+				//Trigger edition mode
 				$scope.$on('$viewContentLoaded', function(event) {
 					vm.taskEdit.$show();
 				});
-				
 			}//if user create a task
 			else{
-				taskManager.get(taskId).then(found,notFound);
 				vm.isNew = false;
 				vm.okTitle = 'Update';
+				vm.title = "Task : "+vm.task.title;
 			}//if user edit a task
 
+			//TODO MOVE INTO RESOLVER
 			angular.forEach(TYPES, function(type){
 				vm.TYPES.push(type);
 			});
-			
+			//TODO MOVE INTO RESOLVER
 			angular.forEach(PRIORITIES, function(priority){
 				vm.PRIORITIES.push(priority);
 			});
-
+			//TODO MOVE INTO RESOLVER
 			angular.forEach(STATES, function(state){
 				vm.STATES.push(state);
 			});
 			
-			function found(task){
-				_task = task;
-				vm.task = angular.copy(_task);
-				vm.title = "Task : "+vm.task.title;
-				console.log(vm.task);
-				logger.info('Activated task View');
-			}
-			
-			function notFound(reason){
-				logger.error('Task not found')
-				$state.go('404');
-			}
+			logger.info('Activated task View');
 		}
 
 		
@@ -82,15 +64,14 @@
 			}
 		};
 		
-		function upsertTask(task){
-			var actionTitle = (task.id) ? 'Task update' : 'Task add';
+		function upsertTask(taskToUpsert){
+			var actionTitle = (taskToUpsert.id) ? 'Task update' : 'Task add';
 			
-			taskManager.upsert(task).then(onSuccess, onFailure);
+			taskManager.upsert(taskToUpsert).then(onSuccess, onFailure);
 
-			function onSuccess(){
-				logger.success('Task n° '+task.numero,task,actionTitle);
-				vm.isNew=false;
-				vm.taskEdit.$cancel();
+			function onSuccess(taskUpdated){
+				logger.success('Task n° '+taskUpdated.numero,taskUpdated,actionTitle);
+				activate(taskUpdated);
 			}
 
 			function onFailure(reason){

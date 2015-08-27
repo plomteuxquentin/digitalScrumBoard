@@ -5,43 +5,52 @@
 		.module('app.member')
 		.controller('MembersController', MembersController);
 
-	MembersController.$inject = ['memberManager', 'logger', '$modal', 'Member'];
+	MembersController.$inject = ['memberManager', 'logger', '$modal', 'members', 'AVAILABLE_ROLES'];
 	/* @ngInject */
-	function MembersController(memberManager, logger, $modal, Member) {
+	function MembersController(memberManager, logger, $modal ,members,AVAILABLE_ROLES) {
 		var vm = this;
 
 		
-		var modalTemplate = {
-			animation: true,
-			templateUrl: 'app/member/modal/addMembers.html',
-			controller: 'MemberAddModalController',
-			controllerAs:'vm',
-			size: 'md',
-		}
-		
-		
+
 		
 		vm.title = 'Members';
+		
+
+		vm.upsertMemberModal = upsertMemberModal;
 
 		activate();
 
 		function activate() {
-			//TODO: MOVE INTO STATE
-			logger.info('Loading Members');
-			vm.members = memberManager.getAll();
+			vm.members = members;
 			logger.info('Activated Members View');
 		}
 		
 
+	
 
-
-		vm.upsertMemberModal = upsertMemberModal;
-			
-		
 		function upsertMemberModal(member) {
-			var template = angular.copy(modalTemplate);
-			//TODO: MOVE INTO MODAL CONTROLLER
+			
 			var config = {};
+
+			var template = {
+				animation: true,
+				templateUrl: 'app/member/modal/addMembers.html',
+				controller: 'MemberAddModalController',
+				controllerAs:'vm',
+				size: 'md',
+				resolve:{
+					memberModalConfig : function () {
+						return config;
+					},
+					roles : function(){
+						var roles = []
+						angular.forEach(AVAILABLE_ROLES, function(value) {
+							roles.push(value);
+						});
+						return roles
+					}
+				}
+			}
 			
 			
 			if (member) {
@@ -54,20 +63,14 @@
 				}
 			} else {
 				config = {
-					member : new Member(),
+					member : memberManager.getNew(),
 					modalTitle : 'Create Member',
 					modalAction : 'Create',
 					actionTitle : 'Member added',
 					isNew : true,
 				}
 			}
-				
-				
-			template.resolve = {
-				memberModalConfig: function () {
-						return config;
-					}
-				};	
+
 			
 			var modalInstance = $modal.open(template);
 			modalInstance.result.then(accept, refuse);
@@ -83,14 +86,23 @@
 			}
 		}
 		
-		
 		function upsertMember(member,actionTitle){
-			memberManager.setMember(member);
-			vm.members = memberManager.getAll();
-			logger.success(member.getFullName(),member,actionTitle);
+			memberManager.upsert(member).then(onUpdateSuccess,onUpdateFailure);
+			
+			function onUpdateSuccess(){
+				vm.members = memberManager.getAll();
+				logger.success(member.getFullName(),member,actionTitle);
+			}
+			
+			function onUpdateFailure(reason){
+				console.error(reason);
+				logger.error("",member,actionTitle+' failed');
+			}
 		}
 		
 		function deleteMember(member){
+			
+			//TODO MANAGER PROMISE
 			memberManager.deleteMember(member);
 			vm.members = memberManager.getAll();
 			logger.success(member.getFullName(),member,'Member Deleted');

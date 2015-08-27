@@ -3,15 +3,6 @@
 
 	var mod = angular.module('app.task');
 
-
-
-
-
-	
-
-
-	
-
 	var STATES  = {
 		PENDING:{id:0,title:'pending',logo:'fa fa-inbox'},
 		IN_PROGRESS:{id:1,title:'in progress',logo:'fa fa-refresh'},

@@ -6,7 +6,7 @@
 				<button class="btn btn-primary btn-lg pull-right" ng-click="vm.upsertMemberModal()"><i class="fa fa-user-plus fa-lg"></i> Add Member</button>
 			</h3>
 			<div class="row">
-				<dsc-member-card ng-repeat="member in vm.members track by member.id" member="member" for-edition="vm.upsertMemberModal"></dsc-member-card>
+				<dsb-member-card ng-repeat="member in vm.members track by member.id" member="member" ng-click="vm.upsertMemberModal(member)"></dsb-member-card>
 			</div>
 
 		</div>

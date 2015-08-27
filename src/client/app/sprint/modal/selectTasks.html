@@ -4,12 +4,12 @@
 
 <div class="modal-body container-fluid">
 	<div class="row">
-		<dsc-task-card-mini  ng-repeat="task in vm.tasks track by task.id" entity="task" for-edition="vm.select" type="task"></dsc-task-card-mini>
+		<dsb-task-card-mini  ng-repeat="task in vm.tasks track by task.id" entity="task" ng-click="vm.select(task)"></dsb-task-card-mini>
 		<p ng-show="vm.tasks.length==0">No task available. <button href="#" class="btn-link" disabled>create a new task</button></p>
 	</div>
 </div>
 
 <div class="modal-footer">	                      
-<button class="btn btn-primary" type="button" ng-click="vm.ok()">Select task</button>
+<button class="btn btn-primary" type="button" ng-click="vm.ok()">Select tasks</button>
 <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
 </div>

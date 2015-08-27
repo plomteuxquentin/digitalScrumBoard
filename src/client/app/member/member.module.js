@@ -4,6 +4,5 @@
 	angular.module('app.member', [
 		'app.core',
 		'app.widgets',
-		'app.task'
 	]);
 })();

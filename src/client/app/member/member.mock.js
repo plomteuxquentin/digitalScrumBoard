@@ -20,7 +20,7 @@
 			]
 
 			angular.forEach(members,function(value){
-				manager.setMember(value);
+				manager.upsert(value);
 			});
 		}
 	}

@@ -21,7 +21,7 @@
 				
 			</div>
 			<div class="row">
-				<dsc-task-card ng-repeat="task in vm.tasks | typeFilter:vm.TYPES track by task.id" entity="task" for-edition="vm.upsertModal" type="task"></dsc-task-card>
+				<dsb-task-card ng-repeat="task in vm.tasks | typeFilter:vm.TYPES track by task.id" entity="task" ng-click="vm.quickTaskEdit(task)"></dsb-task-card>
 			</div>
 		</div>
 	</section>

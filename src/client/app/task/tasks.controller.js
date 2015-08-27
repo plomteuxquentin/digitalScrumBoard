@@ -5,70 +5,66 @@
 		.module('app.task')
 		.controller('TasksController', TasksController);
 
-	TasksController.$inject = ['taskManager', 'logger', '$modal', 'Task','TYPES'];
+	TasksController.$inject = ['taskManager', 'logger', '$modal', 'TYPES','tasks'];
 	/* @ngInject */
-	function TasksController(taskManager, logger, $modal, Task,TYPES) {
+	function TasksController(taskManager, logger, $modal, TYPES, tasks) {
 		var vm = this;
 
 
 		vm.title = 'Product backlog';
 		vm.TYPES = TYPES;
 		
-		vm.upsertModal = upsertModal;
+		vm.quickTaskEdit = quickTaskEdit;
 
 		activate();
 
 		
-		
 		function activate() {
-			//TODO: MOVE INTO STATE
-			logger.info('Loading tasks');
-			vm.tasks = taskManager.getAll();
-			console.log(vm.tasks);
+			vm.tasks = angular.copy(tasks);
 			logger.info('Activated tasks View');
 		}
 
 
 
 		//Configure and open upsert modal
-		function upsertModal(task) {
-
-			var template = {
-				animation: true,
-				templateUrl: 'app/task/modal/upsert.html',
-				controller: 'upsertTaskModalController',
-				controllerAs:'vm',
-				size: 'md',
-			}
+		function quickTaskEdit(task) {
 
 			var config = {};
+			var template = {
+				animation: true,
+				templateUrl: 'app/task/modal/quickTaskEdit.html',
+				controller: 'QuickTaskEditController',
+				controllerAs:'vm',
+				size: 'md',
+				resolve:{
+					modalConfig: function () {
+						return config;
+					}
+				}
+			}
 
+			
 			if (task) {
 				config = {
 					entity : task,
 					modalTitle : 'Quick edition task n° '+task.numero,
 					isNew : false,
+					okTitle: 'Update',
 				};
 			} else {
 				config = {
-					entity : new Task(),
+					entity : taskManager.getNew(),
 					modalTitle : 'Create Task',
 					isNew : true,
+					okTitle: 'Create',
 				};
 			}
-
-
-			template.resolve = {
-				modalConfig: function () {
-					return config;
-				}
-			};	
 
 			var modalInstance = $modal.open(template);
 			modalInstance.result.then(accept, refuse);
 
 			function accept(modalResult){
-				if(modalResult.operation == 'UPSERT'){ upsertTask(modalResult.entity);} 
+				if(modalResult.operation == 'UPDATE'){ upsertTask(modalResult.entity);} 
 				else if(modalResult.operation == 'DELETE'){ deleteTask(modalResult.entity);}
 				else { console.error('Unknow Operation')}
 			}
@@ -77,7 +73,6 @@
 				console.log('modal dismissed')
 			}
 		}
-
 
 		function upsertTask(task){
 			var actionTitle = (task.id) ? 'Task update' : 'Task add';
